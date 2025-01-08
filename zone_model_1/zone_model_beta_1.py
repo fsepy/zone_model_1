@@ -4,10 +4,6 @@ Simple zone model implementation based on Zhang and Li (2012).
 Author
 ------
 Danny Hopkin (danny.hopkin@ofrconsultants.com)
-
-Date
-----
-07/01/2025
 """
 
 import matplotlib.pyplot as plt
@@ -24,9 +20,6 @@ def q_o_c_calc(H_o: float, A_o: float, c_p: float, Tf: float, Tinf: float) -> fl
     """
     Calculate heat loss due to convective flow from openings (q_o_c).
 
-    .. math::
-       q_{o,c} = 0.5 \\cdot A_o \\cdot c_p \\cdot (T_f - T_{inf}) \\cdot \\sqrt{H_o}
-
     :param H_o: Opening height [m].
     :param A_o: Opening area [m^2].
     :param c_p: Specific heat of gas [J/(kg·K)].
@@ -42,17 +35,13 @@ def q_o_r_calc(A_o: float, Ef: float, Tf: float, Tinf: float) -> float:
     """
     Calculate heat loss by radiation through openings (q_o_r).
 
-    .. math::
-       q_{o,r} = A_o \\cdot E_f \\cdot \\sigma \\left(T_f^4 - T_{inf}^4\\right)
-
     :param A_o: Opening area [m^2].
     :param Ef: Emissivity of the fire [-].
     :param Tf: Gas (fire) temperature [K].
     :param Tinf: Ambient (external) temperature [K].
     :returns: Radiative heat loss through the opening [W].
     """
-    sigma = 5.67e-8
-    q_o_r = A_o * Ef * sigma * ((Tf ** 4) - (Tinf ** 4))
+    q_o_r = A_o * Ef * 5.67e-8 * ((Tf ** 4) - (Tinf ** 4))
     return q_o_r
 
 
@@ -62,28 +51,20 @@ def q_w(Tf: float, Tw: float, hc: float, E_net: float) -> float:
 
     This includes both convection and radiation:
 
-    .. math::
-       q_w = h_c \\cdot (T_f - T_w)
-             + E_{net} \\cdot \\sigma \\left(T_f^4 - T_w^4\\right)
-
     :param Tf: Gas temperature [K].
     :param Tw: Wall surface temperature [K].
     :param hc: Convection coefficient for the wall [W/(m^2·K)].
     :param E_net: Net emissivity of both wall and fire [-].
     :returns: Heat flux [W/m^2] to the wall.
     """
-    sigma = 5.67e-8
     q_w_conv = hc * (Tf - Tw)
-    q_w_rad = E_net * sigma * ((Tf ** 4) - (Tw ** 4))
+    q_w_rad = E_net * 5.67e-8 * ((Tf ** 4) - (Tw ** 4))
     return q_w_conv + q_w_rad
 
 
 def gas_energy_balance(HRR: float, Q_w: float, Q_o_c: float, Q_o_r: float) -> float:
     """
     Compute net energy stored in the gas by enclosure energy balance.
-
-    .. math::
-       Q_{gas} = HRR - \\left(Q_w + Q_{o,c} + Q_{o,r}\\right)
 
     :param HRR: Fire heat release rate [W].
     :param Q_w: Total heat loss to walls [W].
@@ -98,10 +79,6 @@ def gas_energy_balance(HRR: float, Q_w: float, Q_o_c: float, Q_o_r: float) -> fl
 def delta_gas_temp(Q_gas: float, dt: float, rho_air: float, c_p: float, V_gas: float) -> float:
     """
     Calculate the change in lumped gas temperature.
-
-    .. math::
-       \\Delta T_{gas}
-       = \\frac{Q_{gas}\\cdot\\Delta t}{\\rho_{air}\\, c_p\\, V_{gas}}
 
     :param Q_gas: Net heat input to the gas [W].
     :param dt: Time step [s].
@@ -121,12 +98,6 @@ def wall_rad_hf(gas_volume: float, rad_fraction: float, HRR: float) -> float:
     Approximates the enclosure volume as a sphere to find the characteristic
     path length of radiation:
 
-    .. math::
-       r = \\left( \\frac{3 \\cdot \\text{gas_volume}}{4 \\pi} \\right)^{1/3}
-
-       q_{rad} = \\frac{\\text{rad_fraction} \\cdot HRR}
-                      {4 \\pi r^2}
-
     :param gas_volume: Volume of the gas in the enclosure [m^3].
     :param rad_fraction: Fraction of HRR that is radiative [-].
     :param HRR: Total heat release rate [W].
@@ -141,9 +112,6 @@ def fire_emissivity(h: float) -> float:
     """
     Calculate fire emissivity as a function of characteristic height.
 
-    .. math::
-       E_f = 1 - e^{-1.1 \\, h}
-
     :param h: Characteristic fire height [m].
     :returns: Fire emissivity [-].
     """
@@ -152,7 +120,6 @@ def fire_emissivity(h: float) -> float:
 
 
 if __name__ == "__main__":
-
     # Set initial conditions
     b = 4  # room breadth in [m]
     d = 3  # room depth in [m]

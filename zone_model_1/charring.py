@@ -9,10 +9,10 @@ Danny Hopkin (danny.hopkin@ofrconsultants.com)
 import numpy as np
 
 try:
-    from scipy.integrate import simps
+    from scipy.integrate import simpson as simps
 except ImportError:
     # Fallback for older versions of SciPy
-    from scipy.integrate import simpson as simps
+    from scipy.integrate import simps
 
 
 def char_depth_integral(Temp: list[float], time: list[float]) -> float:
@@ -21,9 +21,6 @@ def char_depth_integral(Temp: list[float], time: list[float]) -> float:
 
     This function calculates the char depth (d_char) based on the integral of
     squared temperatures over time, according to a simplified model:
-
-    .. math::
-       d_{char} = \\left(\\frac{\\int T^2 \\, dt}{1.35\\times 10^5} \\right)^{1/1.6}
 
     :param Temp: List of temperature values [K] at discrete time steps.
     :param time: List of time values [min] corresponding to the temperature values.

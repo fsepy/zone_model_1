@@ -97,9 +97,6 @@ def alpha_calc(k: float, rho: float, c: float) -> float:
     """
     Calculate the thermal diffusivity of the wall material.
 
-    .. math::
-       \\alpha = \\frac{k}{\\rho \\, c}
-
     :param k: Thermal conductivity [W/(m·K)].
     :param rho: Density of the material [kg/m^3].
     :param c: Specific heat capacity [J/(kg·K)].

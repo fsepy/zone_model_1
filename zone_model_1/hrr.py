@@ -11,9 +11,6 @@ def HRR_flash(At: float, Av: float, Hv: float) -> float:
     """
     Determine the HRR at flashover based on opening factor.
 
-    .. math::
-       Q_{fo} = 7.8 \\cdot A_t + 378 \\cdot A_v \\sqrt{H_v}
-
     :param At: Total surface area (excluding openings) [m^2].
     :param Av: Opening area [m^2].
     :param Hv: Opening height [m].
