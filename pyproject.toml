@@ -11,12 +11,23 @@ requires-python = ">=3.11"
 dependencies = [
     'numpy',
     'scipy',
-    'matplotlib',
+    'tqdm',
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
+
+# Development dependencies
+# pip install -e .[dev]
+[project.optional-dependencies]
+test = [
+    'pytest',
+]
+dev = [
+    'pytest',
+    'matplotlib',
 ]
 
 [project.urls]
