@@ -7,7 +7,7 @@ Danny Hopkin (danny.hopkin@ofrconsultants.com)
 """
 
 
-def HRR_flash(At: float, Av: float, Hv: float) -> float:
+def hrr_flash(At: float, Av: float, Hv: float) -> float:
     """
     Determine the HRR at flashover based on opening factor.
 
@@ -17,11 +17,10 @@ def HRR_flash(At: float, Av: float, Hv: float) -> float:
     :returns: HRR at flashover [kW].
     """
     Q_fo = (7.8 * At) + (378 * Av * (Hv ** 0.5))
-    print(" Q_fo = ", Q_fo)
     return Q_fo
 
 
-def Time_to_grow(growth_rate: float, HRR: float) -> float:
+def time_to_grow(growth_rate: float, HRR: float) -> float:
     """
     Calculate the time it takes to reach a target HRR under t-squared growth.
 
@@ -36,7 +35,7 @@ def Time_to_grow(growth_rate: float, HRR: float) -> float:
     return t_grow
 
 
-def FLE_grow(t_grow: float, growth_rate: float) -> float:
+def fle_grow(t_grow: float, growth_rate: float) -> float:
     """
     Calculate the fire load energy consumed during the growth phase.
 
@@ -51,7 +50,7 @@ def FLE_grow(t_grow: float, growth_rate: float) -> float:
     return FLE_growth
 
 
-def vent_cont_HRR(Av: float, Hv: float) -> float:
+def vent_cont_hrr(Av: float, Hv: float) -> float:
     """
     Calculate the ventilation-controlled HRR.
 
@@ -63,11 +62,10 @@ def vent_cont_HRR(Av: float, Hv: float) -> float:
     :returns: Ventilation-controlled HRR [kW].
     """
     Q_vc = 1130 * Av * (Hv ** 0.5)
-    print(" Q_vc = ", Q_vc)
     return Q_vc
 
 
-def fuel_cont_HRR(Af: float, HRRPUA: float) -> float:
+def fuel_cont_hrr(Af: float, HRRPUA: float) -> float:
     """
     Calculate the fuel-controlled HRR.
 
@@ -79,7 +77,6 @@ def fuel_cont_HRR(Af: float, HRRPUA: float) -> float:
     :returns: Fuel-controlled HRR [kW].
     """
     Q_fc = Af * HRRPUA
-    print(" Q_fc = ", Q_fc)
     return Q_fc
 
 
@@ -123,7 +120,7 @@ def t_squared_fire(growth_rate: float, time: float) -> float:
     return HRR
 
 
-def time_vs_HRR(b: float, d: float, h: float, H_o: float, B_o: float,
+def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
                 HRRPUA: float, alpha: float, FLED: float) -> tuple[list[float], list[float]]:
     """
     Compute arrays of time vs. HRR using a piecewise approach:
@@ -155,9 +152,9 @@ def time_vs_HRR(b: float, d: float, h: float, H_o: float, B_o: float,
     FLE = FLED * floor_area
 
     # Calculate key fire properties
-    Q_fo = HRR_flash(total_surf_area, opening_area, H_o)  # [kW]
-    Q_vc = vent_cont_HRR(opening_area, H_o)  # [kW]
-    Q_fc = fuel_cont_HRR(floor_area, HRRPUA)  # [kW]
+    print(f" Q_fo = ", Q_fo := hrr_flash(total_surf_area, opening_area, H_o))  # [kW]
+    print(" Q_vc = ", Q_vc := vent_cont_hrr(opening_area, H_o))  # [kW]
+    print(" Q_fc = ", Q_fc := fuel_cont_hrr(floor_area, HRRPUA))  # [kW]
 
     # End of growth phase HRR and maximum HRR
     Q_end_grow = min(Q_fo, Q_vc, Q_fc)
@@ -166,8 +163,8 @@ def time_vs_HRR(b: float, d: float, h: float, H_o: float, B_o: float,
     print("Q at end of growth phase = ", Q_end_grow, "Qmax = ", Q_max)
 
     # Calculate time for growth, energy consumed, and durations of steady & decay phases
-    t_grow = Time_to_grow(alpha, Q_end_grow)
-    FLE_growth = FLE_grow(t_grow, alpha)
+    t_grow = time_to_grow(alpha, Q_end_grow)
+    FLE_growth = fle_grow(t_grow, alpha)
     t_steady = steady_burn_time(FLE_growth, FLE, Q_max)
     t_decay = decay_time(FLE, Q_max)
 
@@ -213,11 +210,11 @@ if __name__ == "__main__":
     alpha = 0.012
     FLED = 700000
 
-    HRR_time_arr, HRR_arr = time_vs_HRR(b, d, h, H_o, B_o, HRRPUA, alpha, FLED)
+    HRR_time_arr, HRR_arr = time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, alpha, FLED)
 
     # Calculate area under curve to check inputs
     FLED_AUC = auc(HRR_time_arr, HRR_arr)
-    # rint(FLED_AUC/ floor_area)
+    # print(FLED_AUC/ floor_area)
 
     fig, ax1 = plt.subplots()
     ax1.plot(HRR_time_arr, HRR_arr)

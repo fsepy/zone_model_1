@@ -74,7 +74,7 @@ def update_wall_temp_array(
     return T
 
 
-def HT_dx_dt_sub(L: float, N: int, alpha: float) -> tuple[float, float]:
+def ht_dx_dt_sub(L: float, N: int, alpha: float) -> tuple[float, float]:
     """
     Calculate the spatial step size (dx) and time step (dt) for the wall solver.
 
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     alpha = alpha_calc(k, rho, c)
 
     # Define spatial and time steps
-    dx, dt = HT_dx_dt_sub(L, N, alpha)
+    dx, dt = ht_dx_dt_sub(L, N, alpha)
 
     # Initialise temperature array in Kelvin
     T = np.ones(N) * T0  # Initial temperature distribution

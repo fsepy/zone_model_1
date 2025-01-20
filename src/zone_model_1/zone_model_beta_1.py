@@ -5,7 +5,7 @@ if __name__ == "__main__":
 
     import zone_model_1.hrr as RHR
     from zone_model_1.charring import char_depth_integral
-    from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, HT_dx_dt_sub, update_wall_temp_array
+    from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, update_wall_temp_array
     from zone_model_1.core import *
 
     # Set initial conditions
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     alpha = alpha_calc(k, rho, c)
 
     # Define spatial and time steps
-    dx, dt = HT_dx_dt_sub(L, N, alpha)
+    dx, dt = ht_dx_dt_sub(L, N, alpha)
     steps = End_time / dt
     print(round(steps))
 
@@ -68,10 +68,10 @@ if __name__ == "__main__":
     gas_volume = b * d * h
 
     # Define relationship between HRR and time
-    HRR_time_arr, HRR_hrr_arr = RHR.time_vs_HRR(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED)
+    HRR_time_arr, HRR_hrr_arr = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED)
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert to Watts
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr)  # Interpolation function
-    HRR_VC_lim = RHR.vent_cont_HRR(opening_area, H_o) * 1000
+    HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000
 
     # Create output storage arrays
     output_time_arr = []

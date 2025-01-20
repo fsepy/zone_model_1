@@ -19,7 +19,7 @@ from zone_model_1.core import (
     wall_rad_hf,
     fire_emissivity
 )
-from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, HT_dx_dt_sub, update_wall_temp_array
+from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, update_wall_temp_array
 
 
 def main(
@@ -29,8 +29,8 @@ def main(
         h: float = 2.4,  # Room height [m]
         H_o: float = 1.8,  # Aggregate opening height [m]
         B_o: float = 0.8,  # Aggregate opening width [m]
-        Tinf: float = 293.0,  # Initial ambient temperature [K]
-        Tf: float = 293.0,  # Initial enclosure temperature [K]
+        T_inf: float = 293.0,  # Initial ambient temperature [K]
+        T_f: float = 293.0,  # Initial enclosure temperature [K]
         start_time: float = 0.0,  # Start time for time array [s]
         end_time: float = 7200.0,  # End time [s]
         wood_density: float = 450.0,
@@ -66,8 +66,8 @@ def main(
     :param h: Room height [m].
     :param H_o: Aggregate opening height [m].
     :param B_o: Aggregate opening width [m].
-    :param Tinf: Initial ambient temperature [K].
-    :param Tf: Initial enclosure temperature [K].
+    :param T_inf: Initial ambient temperature [K].
+    :param T_f: Initial enclosure temperature [K].
     :param start_time: Start time for the simulation [s].
     :param end_time: End time for the simulation [s].
     :param wood_density: Density of wood [kg/m^3].
@@ -100,7 +100,7 @@ def main(
     alpha = alpha_calc(k, rho, c)
 
     # Define spatial and time steps
-    dx, dt = HT_dx_dt_sub(L, N, alpha)
+    dx, dt = ht_dx_dt_sub(L, N, alpha)
     steps = end_time / dt
     print("Number of steps:", round(steps))
 
@@ -120,10 +120,10 @@ def main(
     gas_volume = b * d * h
 
     # Fire load relationship
-    HRR_time_arr, HRR_hrr_arr = RHR.time_vs_HRR(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED)
+    HRR_time_arr, HRR_hrr_arr = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED)
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert kW to W
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr, kind="linear", fill_value="extrapolate")
-    HRR_VC_lim = RHR.vent_cont_HRR(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
+    HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
 
     # Initialize output arrays
     output_time_arr = []
@@ -137,7 +137,7 @@ def main(
 
     # Populate with initial values
     output_time_arr.append(0.0)
-    output_gas_temp_arr.append(Tf)
+    output_gas_temp_arr.append(T_f)
     output_charring_rate_arr.append(0.0)
     output_MLR_arr.append(0.0)
     output_HRR_wood_arr.append(0.0)
@@ -167,27 +167,27 @@ def main(
         q_rad_wall = wall_rad_hf(gas_volume, (1.0 - conv_fract), HRR_conv) * (1.0 - Ef)
 
         # Update wall temperatures
-        T = update_wall_temp_array(T, T_new, T_history, alpha, dt, dx, hc, Tf, E_net, sigma, rho, c, N, q_rad_wall)
+        T = update_wall_temp_array(T, T_new, T_history, alpha, dt, dx, hc, T_f, E_net, sigma, rho, c, N, q_rad_wall)
         Tw = T[0]
 
         # Openings: convective & radiative losses
-        Q_o_c = q_o_c_calc(H_o, opening_area, c_p, Tf, Tinf)
-        Q_o_r = q_o_r_calc(opening_area, Ef, Tf, Tinf=0.0)
+        Q_o_c = q_o_c_calc(H_o, opening_area, c_p, T_f, T_inf)
+        Q_o_r = q_o_r_calc(opening_area, Ef, T_f, Tinf=0.0)
 
         # Heat loss to walls
-        Q_w_walls = q_w(Tf, Tw, hc, E_net) * wall_area
-        Q_w_ceiling = q_w(Tf, Tw, hc, E_net) * ceiling_area
-        Q_w_floor = q_w(Tf, Tw, hc, E_net) * floor_area
+        Q_w_walls = q_w(T_f, Tw, hc, E_net) * wall_area
+        Q_w_ceiling = q_w(T_f, Tw, hc, E_net) * ceiling_area
+        Q_w_floor = q_w(T_f, Tw, hc, E_net) * floor_area
         Q_w_total = Q_w_walls + Q_w_ceiling + Q_w_floor
 
         # Gas energy balance & temperature update
         Q_gas = gas_energy_balance(HRR_conv, Q_w_total, Q_o_c, Q_o_r)
         dT_gas = delta_gas_temp(Q_gas, dt, rho_air, c_p, gas_volume)
-        Tf = max(293.0, Tf + dT_gas)
+        T_f = max(293.0, T_f + dT_gas)
 
         # Store results
         output_time_arr.append(time_s)
-        output_gas_temp_arr.append(Tf)
+        output_gas_temp_arr.append(T_f)
         T_wall_surf.append(T[0])
 
         # Compute char depth
@@ -200,7 +200,7 @@ def main(
         output_char_depth_arr = gaussian_filter1d(output_char_depth_arr, sigma=1.5)
 
         # Charring rate
-        if Tf < (300.0 + 273.0) and time_s < 60.0:
+        if T_f < (300.0 + 273.0) and time_s < 60.0:
             charring_rate = 0.0
         else:
             charring_rate = (output_char_depth_arr[i] - output_char_depth_arr[i - 1]) / (dt / 60.0)
@@ -214,12 +214,6 @@ def main(
         output_HRR_wood_arr.append(HRR_wood)
         output_HRR_total_arr.append(HRR_total)
         output_HRR_ext_arr.append(HRR_ext)
-
-        # print(
-        #     f"Solving... Step = {i}, Time = {time_s:.1f} s, "
-        #     f"HRR = {HRR_conv / 1000.0:.2f} kW, Gas temp = {Tf:.2f} K, "
-        #     f"Incident HF to walls = {q_rad_wall:.2f} W/m^2"
-        # )
 
     # Plot output
     output_time_arr = [x / 60 for x in output_time_arr]

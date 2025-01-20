@@ -108,5 +108,4 @@ def fire_emissivity(h: float) -> float:
     :param h: Characteristic fire height [m].
     :returns: Fire emissivity [-].
     """
-    Ef = 1 - np.exp(-1.1 * h)
-    return Ef
+    return 1 - np.exp(-1.1 * h)
