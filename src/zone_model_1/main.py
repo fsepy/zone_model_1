@@ -24,7 +24,7 @@ from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, up
 
 def main(
         # Set initial conditions
-        b: float = 4.0,  # Room breadth [m]
+        b: float = 3.0,  # Room breadth [m]
         d: float = 3.0,  # Room depth [m]
         h: float = 2.4,  # Room height [m]
         H_o: float = 1.8,  # Aggregate opening height [m]
