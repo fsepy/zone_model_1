@@ -49,7 +49,6 @@ if __name__ == "__main__":
     ax5.set_xlabel('Time [min]')
     ax5.set_ylabel('HRR [W]')
     ax5.legend().set_visible(True)
-    ax5.set_xlim(0, 120)
     fig.tight_layout()
 
     plt.show()

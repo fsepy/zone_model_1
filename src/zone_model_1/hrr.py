@@ -6,6 +6,8 @@ Author
 Danny Hopkin (danny.hopkin@ofrconsultants.com)
 """
 
+# import localised fire modules
+from localised_fire import get_localised_fire
 
 def hrr_flash(At: float, Av: float, Hv: float) -> float:
     """
@@ -121,7 +123,7 @@ def t_squared_fire(growth_rate: float, time: float) -> float:
 
 
 def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
-                HRRPUA: float, alpha: float, FLED: float) -> tuple[list[float], list[float]]:
+                HRRPUA: float, alpha: float, FLED: float, conv_fract: float) -> tuple[list[float], list[float]]:
     """
     Compute arrays of time vs. HRR using a piecewise approach:
     - Growth (t-squared)
@@ -136,6 +138,7 @@ def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
     :param HRRPUA: Heat release rate per unit area [kW/m^2].
     :param alpha: Growth rate [kW/s^2].
     :param FLED: Fire load energy density [kJ/m^2].
+    :param conv_fract: fire HRR convective fraction [-].
     :returns: A tuple of (HRR_time_arr, HRR_arr).
 
         - HRR_time_arr : List of times [s].
@@ -156,8 +159,17 @@ def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
     print(" Q_vc = ", Q_vc := vent_cont_hrr(opening_area, H_o))  # [kW]
     print(" Q_fc = ", Q_fc := fuel_cont_hrr(floor_area, HRRPUA))  # [kW]
 
+    # Calculate when flames touch the ceiling from a localised fire. Use this to trigger flashover
+    for time_step in range(0, 3600, 1):
+        local_HRR = t_squared_fire(alpha, float(time_step)) * 1000
+        local_flame_height, local_flame_temp = get_localised_fire(local_HRR, HRRPUA*1000, conv_fract, h)
+        if local_flame_temp < 300:
+            ceiling_ignition_time = time_step
+            Q_ign = local_HRR / 1000
+    print(" Q_ign = ", Q_ign)  # [kW]
+
     # End of growth phase HRR and maximum HRR
-    Q_end_grow = min(Q_fo, Q_vc, Q_fc)
+    Q_end_grow = min(Q_fo, Q_vc, Q_fc, Q_ign)
     Q_max = min(Q_vc, Q_fc)
 
     print("Q at end of growth phase = ", Q_end_grow, "Qmax = ", Q_max)
@@ -193,7 +205,7 @@ def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
     HRR_time_arr.append(14400.0)  # 4 hours in seconds
     HRR_arr.append(0.0)
 
-    return HRR_time_arr, HRR_arr
+    return HRR_time_arr, HRR_arr, ceiling_ignition_time
 
 
 if __name__ == "__main__":

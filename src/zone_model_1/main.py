@@ -24,11 +24,11 @@ from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, up
 
 def main(
         # Set initial conditions
-        b: float = 3.0,  # Room breadth [m]
-        d: float = 3.0,  # Room depth [m]
-        h: float = 2.4,  # Room height [m]
-        H_o: float = 1.8,  # Aggregate opening height [m]
-        B_o: float = 0.8,  # Aggregate opening width [m]
+        b: float = 31.62,  # Room breadth [m]
+        d: float = 31.62,  # Room depth [m]
+        h: float = 3.0,  # Room height [m]
+        H_o: float = 2.0,  # Aggregate opening height [m]
+        B_o: float = 62.0,  # Aggregate opening width [m]
         T_inf: float = 293.0,  # Initial ambient temperature [K]
         T_f: float = 293.0,  # Initial enclosure temperature [K]
         start_time: float = 0.0,  # Start time for time array [s]
@@ -99,11 +99,6 @@ def main(
     # Calculate thermal diffusivity
     alpha = alpha_calc(k, rho, c)
 
-    # Define spatial and time steps
-    dx, dt = ht_dx_dt_sub(L, N, alpha)
-    steps = end_time / dt
-    print("Number of steps:", round(steps))
-
     # Initialize temperature arrays
     T = np.ones(N) * T0_wall
     T_new = T.copy()
@@ -120,10 +115,18 @@ def main(
     gas_volume = b * d * h
 
     # Fire load relationship
-    HRR_time_arr, HRR_hrr_arr = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED)
+    HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED, conv_fract)
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert kW to W
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr, kind="linear", fill_value="extrapolate")
     HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
+
+    # Check end time
+    end_time = HRR_time_arr[-1]
+
+    # Define spatial and time steps
+    dx, dt = ht_dx_dt_sub(L, N, alpha)
+    steps = end_time / dt
+    print("Number of steps:", round(steps))
 
     # Initialize output arrays
     output_time_arr = []
@@ -151,7 +154,11 @@ def main(
     for i in tqdm(range(1, round(steps) + 1)):
         time_s = i * dt
         HRR_content = HRR_interp(time_s)  # W
-        HRR_wood = MLR * wood_Hoc * ceiling_area * ceiling_exposed * 1000.0  # Convert kJ to W
+
+        if time_s > ceiling_ignition_time:
+            HRR_wood = MLR * wood_Hoc * ceiling_area * ceiling_exposed * 1000.0  # Convert kJ to W
+        else:
+            HRR_wood = 0
 
         # Limit total HRR by ventilation
         HRR_total = min(HRR_wood + HRR_content, HRR_VC_lim)
@@ -200,7 +207,13 @@ def main(
         output_char_depth_arr = gaussian_filter1d(output_char_depth_arr, sigma=1.5)
 
         # Charring rate
-        if T_f < (300.0 + 273.0) and time_s < 60.0:
+        #if T_f < (300.0 + 273.0) and time_s < 60.0:
+        #    charring_rate = 0.0
+        #else:
+        #    charring_rate = (output_char_depth_arr[i] - output_char_depth_arr[i - 1]) / (dt / 60.0)
+        #output_charring_rate_arr.append(charring_rate)
+
+        if time_s < ceiling_ignition_time:
             charring_rate = 0.0
         else:
             charring_rate = (output_char_depth_arr[i] - output_char_depth_arr[i - 1]) / (dt / 60.0)

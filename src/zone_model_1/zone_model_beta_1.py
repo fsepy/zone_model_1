@@ -9,11 +9,11 @@ if __name__ == "__main__":
     from zone_model_1.core import *
 
     # Set initial conditions
-    b = 4  # room breadth in [m]
-    d = 3  # room depth in [m]
-    h = 2.4  # room height in [m]
-    H_o = 1.8  # aggregate opening height in [m]
-    B_o = 0.8  # aggregate opening width in [m]
+    b = 30  # room breadth in [m]
+    d = 30  # room depth in [m]
+    h = 3.0  # room height in [m]
+    H_o = 2.0  # aggregate opening height in [m]
+    B_o = 30.0  # aggregate opening width in [m]
     Tinf = 293  # Initial environment temperature condition in [K]
     Tf = 293  # Initial enclosure temperature condition in [K]
     Start_time = 0  # set start time for time array in [s]
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     rho_air = 1
 
     # Fire properties
-    growth_rate = 0.012
+    growth_rate = 0.044
     HRRPUA = 290
     FLED = 570000
     conv_fract = 0.7
