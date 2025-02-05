@@ -16,6 +16,12 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
+    # Convert HRR arrays to kW
+    HRR_hrr_arr = [x / 1000 for x in HRR_hrr_arr]
+    output_HRR_wood_arr = [x / 1000 for x in output_HRR_wood_arr]
+    output_HRR_total_arr = [x / 1000 for x in output_HRR_total_arr]
+    output_HRR_ext_arr = [x / 1000 for x in output_HRR_ext_arr]
+
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax1 = plt.subplots()
     ax1.plot(output_time_arr, output_gas_temp_arr, label='Gas')
@@ -47,7 +53,7 @@ if __name__ == "__main__":
     ax5.plot(output_time_arr, output_HRR_total_arr, label='total internal')
     ax5.plot(output_time_arr, output_HRR_ext_arr, label='total external')
     ax5.set_xlabel('Time [min]')
-    ax5.set_ylabel('HRR [W]')
+    ax5.set_ylabel('HRR [kW]')
     ax5.legend().set_visible(True)
     fig.tight_layout()
 

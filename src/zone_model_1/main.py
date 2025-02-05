@@ -24,23 +24,23 @@ from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, up
 
 def main(
         # Set initial conditions
-        b: float = 31.62,  # Room breadth [m]
-        d: float = 31.62,  # Room depth [m]
+        b: float = 30,  # Room breadth [m]
+        d: float = 30,  # Room depth [m]
         h: float = 3.0,  # Room height [m]
-        H_o: float = 2.0,  # Aggregate opening height [m]
-        B_o: float = 62.0,  # Aggregate opening width [m]
-        T_inf: float = 293.0,  # Initial ambient temperature [K]
+        H_o: float = 2.8,  # Aggregate opening height [m]
+        B_o: float = 60,  # Aggregate opening width [m]
+        T_inf: float = 293.0,  # Initial outside ambient temperature [K]
         T_f: float = 293.0,  # Initial enclosure temperature [K]
-        start_time: float = 0.0,  # Start time for time array [s]
-        end_time: float = 7200.0,  # End time [s]
-        wood_density: float = 450.0,
-        wood_Hoc: float = 17500.0,
-        ceiling_exposed: float = 0.999,
 
-        # Heat transfer properties
+        # Properties of the wood for combustion analysis
+        wood_density: float = 450.0,
+        wood_Hoc: float = 15500.0,
+        ceiling_exposed: float = 1.0,
+
+        # Heat transfer properties of gas
         c_p: float = 1000.0,
-        E_net: float = 0.8,
-        rho_air: float = 1.0,
+        E_net: float = 0.7,
+        rho_air: float = 1.204,
 
         # Fire properties
         growth_rate: float = 0.012,
@@ -48,14 +48,33 @@ def main(
         FLED: float = 570000.0,
         conv_fract: float = 0.7,
 
-        # Wall solver properties
+        # Boundary solver properties
+        # Walls
         k: float = 0.12,  # Thermal conductivity [W/(m·K)]
         rho: float = 750.0,  # Density [kg/m^3]
         c: float = 1090.0,  # Specific heat capacity [J/(kg·K)]
         T0_wall: float = 293.0,  # Initial wall temperature [K]
+        L: float = 0.05,  # Thickness of the plasterboard [m]
+        N: int = 51,  # Number of spatial nodes
+
+        # Ceiling
+        k_ceil: float = 0.12,  # Thermal conductivity [W/(m·K)]
+        rho_ceil: float = 480.0,  # Density [kg/m^3]
+        c_ceil: float = 1530.0,  # Specific heat capacity [J/(kg·K)]
+        T0_ceil: float = 293.0,  # Initial wall temperature [K]
+        L_ceil: float = 0.15,  # Thickness of the plasterboard [m]
+        N_ceil: int = 101,  # Number of spatial nodes
+
+        # floor
+        k_floor: float = 1.6,  # Thermal conductivity [W/(m·K)]
+        rho_floor: float = 2300.0,  # Density [kg/m^3]
+        c_floor: float = 900.0,  # Specific heat capacity [J/(kg·K)]
+        T0_floor: float = 293.0,  # Initial wall temperature [K]
+        L_floor: float = 0.2,  # Thickness of the plasterboard [m]
+        N_floor: int = 101,  # Number of spatial nodes
+
+        # General
         hc: float = 35.0,  # Convective heat transfer coefficient [W/(m^2·K)]
-        L: float = 0.1,  # Thickness of the plasterboard [m]
-        N: int = 101,  # Number of spatial nodes
         sigma: float = 5.67e-8  # Stefan-Boltzmann constant [W/(m^2·K^4)]
 ):
     """
@@ -68,8 +87,6 @@ def main(
     :param B_o: Aggregate opening width [m].
     :param T_inf: Initial ambient temperature [K].
     :param T_f: Initial enclosure temperature [K].
-    :param start_time: Start time for the simulation [s].
-    :param end_time: End time for the simulation [s].
     :param wood_density: Density of wood [kg/m^3].
     :param wood_Hoc: Effective heat of combustion of wood [kJ/kg].
     :param ceiling_exposed: Fraction of ceiling area exposed to burning.
@@ -97,15 +114,27 @@ def main(
     Ef = fire_emissivity(h)
 
     # Calculate thermal diffusivity
-    alpha = alpha_calc(k, rho, c)
+    alpha_wall = alpha_calc(k, rho, c)
+    alpha_ceil = alpha_calc(k_ceil, rho_ceil, c_ceil)
+    alpha_floor = alpha_calc(k_floor, rho_floor, c_floor)
 
-    # Initialize temperature arrays
+    # Initialize temperature arrays for boundaries
+    # Walls
     T = np.ones(N) * T0_wall
     T_new = T.copy()
 
-    # Arrays to record wall temperature history
+    # Ceiling
+    T_ceil = np.ones(N_ceil) * T0_ceil
+    T_ceil_new = T_ceil.copy()
+
+    # Floor
+    T_floor = np.ones(N_floor) * T0_floor
+    T_floor_new = T_floor.copy()
+
+    # Arrays to record boundary temperature history
     T_history = []
-    T_wall_surf = []
+    T_ceil_history = []
+    T_floor_history = []
 
     # Enclosure geometry
     opening_area = H_o * B_o
@@ -124,7 +153,11 @@ def main(
     end_time = HRR_time_arr[-1]
 
     # Define spatial and time steps
-    dx, dt = ht_dx_dt_sub(L, N, alpha)
+    dx_wall, dt1 = ht_dx_dt_sub(L, N, alpha_wall)
+    dx_ceil, dt2 = ht_dx_dt_sub(L_ceil, N_ceil, alpha_ceil)
+    dx_floor, dt3 = ht_dx_dt_sub(L_floor, N_floor, alpha_floor)
+    dt = min(dt1, dt2, dt3)
+
     steps = end_time / dt
     print("Number of steps:", round(steps))
 
@@ -173,18 +206,27 @@ def main(
         # Incident radiation on walls (fraction that is radiative, minus fire emissivity)
         q_rad_wall = wall_rad_hf(gas_volume, (1.0 - conv_fract), HRR_conv) * (1.0 - Ef)
 
-        # Update wall temperatures
-        T = update_wall_temp_array(T, T_new, T_history, alpha, dt, dx, hc, T_f, E_net, sigma, rho, c, N, q_rad_wall)
-        Tw = T[0]
+        # Update boundary temperatures
+        # Walls
+        T = update_wall_temp_array(T, T_new, T_history, alpha_wall, dt, dx_wall, hc, T_f, E_net, sigma, rho, c, N, q_rad_wall)
+        Ts_wall = T[0]
+
+        # ceiling
+        T_ceil = update_wall_temp_array(T_ceil, T_ceil_new, T_ceil_history, alpha_ceil, dt, dx_ceil, hc, T_f, E_net, sigma, rho_ceil, c_ceil, N_ceil, q_rad_wall)
+        Ts_ceil = T_ceil[0]
+
+        # floor
+        T_floor = update_wall_temp_array(T_floor, T_floor_new, T_floor_history, alpha_floor, dt, dx_floor, hc, T_f, E_net, sigma, rho_floor, c_floor, N_floor, q_rad_wall)
+        Ts_floor = T_floor[0]
 
         # Openings: convective & radiative losses
         Q_o_c = q_o_c_calc(H_o, opening_area, c_p, T_f, T_inf)
         Q_o_r = q_o_r_calc(opening_area, Ef, T_f, Tinf=0.0)
 
         # Heat loss to walls
-        Q_w_walls = q_w(T_f, Tw, hc, E_net) * wall_area
-        Q_w_ceiling = q_w(T_f, Tw, hc, E_net) * ceiling_area
-        Q_w_floor = q_w(T_f, Tw, hc, E_net) * floor_area
+        Q_w_walls = q_w(T_f, Ts_wall, hc, E_net) * wall_area
+        Q_w_ceiling = q_w(T_f, Ts_ceil, hc, E_net) * ceiling_area
+        Q_w_floor = q_w(T_f, Ts_floor, hc, E_net) * floor_area
         Q_w_total = Q_w_walls + Q_w_ceiling + Q_w_floor
 
         # Gas energy balance & temperature update
@@ -195,7 +237,6 @@ def main(
         # Store results
         output_time_arr.append(time_s)
         output_gas_temp_arr.append(T_f)
-        T_wall_surf.append(T[0])
 
         # Compute char depth
         output_time_arr_min = [x / 60.0 for x in output_time_arr]
@@ -206,7 +247,7 @@ def main(
         # Smooth char depth array
         output_char_depth_arr = gaussian_filter1d(output_char_depth_arr, sigma=1.5)
 
-        # Charring rate
+        # Charring rate - removed from code and replaced with ceiling ignition routine
         #if T_f < (300.0 + 273.0) and time_s < 60.0:
         #    charring_rate = 0.0
         #else:
@@ -231,7 +272,6 @@ def main(
     # Plot output
     output_time_arr = [x / 60 for x in output_time_arr]
     output_gas_temp_arr = [x - 273 for x in output_gas_temp_arr]
-    T_wall_surf = [x - 273 for x in T_wall_surf]
     HRR_time_arr = [x / 60 for x in HRR_time_arr]
 
     return (
