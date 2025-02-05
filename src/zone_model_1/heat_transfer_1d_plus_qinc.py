@@ -56,14 +56,28 @@ def update_wall_temp_array(
         T_new[i] = T[i] + alpha * dt / dx ** 2 * (T[i + 1] - 2 * T[i] + T[i - 1])
 
     # Boundary condition at exposed surface (x = 0)
+    # Calculate absorbed heat flux
+    q_abs_conv_gas = h * (Tg - T[0])
+    q_abs_rad_gas = epsilon * sigma * (Tg ** 4 - T[0] ** 4)
+    q_abs_rad_flame = q_inc - (sigma * (T[0] ** 4 - 293 ** 4)) - (h * (T[0] - 293))
+
     T_new[0] = T[0] + (
             (
-                    h * (Tg - T[0])
-                    + epsilon * sigma * (Tg ** 4 - T[0] ** 4)
+                    q_abs_conv_gas
+                    + q_abs_rad_gas
                     + q_inc
             ) * dt / (rho * c * dx)
             + alpha * dt / dx ** 2 * (T[1] - T[0])
     )
+
+    # T_new[0] = T[0] + (
+    #         (
+    #                 h * (Tg - T[0])
+    #                 + epsilon * sigma * (Tg ** 4 - T[0] ** 4)
+    #                 + q_inc
+    #         ) * dt / (rho * c * dx)
+    #         + alpha * dt / dx ** 2 * (T[1] - T[0])
+    # )
 
     # Boundary condition at insulated surface (x = L)
     T_new[N - 1] = T[N - 1] + alpha * dt / dx ** 2 * (T[N - 2] - T[N - 1])

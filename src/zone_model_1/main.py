@@ -24,11 +24,11 @@ from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, up
 
 def main(
         # Set initial conditions
-        b: float = 30,  # Room breadth [m]
-        d: float = 30,  # Room depth [m]
-        h: float = 3.0,  # Room height [m]
-        H_o: float = 2.8,  # Aggregate opening height [m]
-        B_o: float = 60,  # Aggregate opening width [m]
+        b: float = 3,  # Room breadth [m]
+        d: float = 4,  # Room depth [m]
+        h: float = 2.4,  # Room height [m]
+        H_o: float = 1.8,  # Aggregate opening height [m]
+        B_o: float = 0.7,  # Aggregate opening width [m]
         T_inf: float = 293.0,  # Initial outside ambient temperature [K]
         T_f: float = 293.0,  # Initial enclosure temperature [K]
 
@@ -45,8 +45,9 @@ def main(
         # Fire properties
         growth_rate: float = 0.012,
         HRRPUA: float = 290.0,
-        FLED: float = 570000.0,
-        conv_fract: float = 0.7,
+        FLED: float = 780000.0,
+        FLED_combustion_eff: float = 0.8,
+        conv_fract: float = 0.6,
 
         # Boundary solver properties
         # Walls
@@ -59,7 +60,7 @@ def main(
 
         # Ceiling
         k_ceil: float = 0.12,  # Thermal conductivity [W/(m·K)]
-        rho_ceil: float = 480.0,  # Density [kg/m^3]
+        rho_ceil: float = 450.0,  # Density [kg/m^3]
         c_ceil: float = 1530.0,  # Specific heat capacity [J/(kg·K)]
         T0_ceil: float = 293.0,  # Initial wall temperature [K]
         L_ceil: float = 0.15,  # Thickness of the plasterboard [m]
@@ -144,7 +145,7 @@ def main(
     gas_volume = b * d * h
 
     # Fire load relationship
-    HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED, conv_fract)
+    HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED * FLED_combustion_eff, conv_fract)
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert kW to W
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr, kind="linear", fill_value="extrapolate")
     HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
@@ -204,7 +205,7 @@ def main(
         HRR_conv = HRR_total * conv_fract
 
         # Incident radiation on walls (fraction that is radiative, minus fire emissivity)
-        q_rad_wall = wall_rad_hf(gas_volume, (1.0 - conv_fract), HRR_conv) * (1.0 - Ef)
+        q_rad_wall = wall_rad_hf(gas_volume, (1.0 - conv_fract), HRR_conv) #* (1.0 - Ef)
 
         # Update boundary temperatures
         # Walls
