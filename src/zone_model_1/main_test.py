@@ -1,5 +1,6 @@
 if __name__ == "__main__":
     from zone_model_1 import main_model_as_function
+    import pandas as pd
 
     (
         output_time_arr,
@@ -21,6 +22,11 @@ if __name__ == "__main__":
     output_HRR_wood_arr = [x / 1000 for x in output_HRR_wood_arr]
     output_HRR_total_arr = [x / 1000 for x in output_HRR_total_arr]
     output_HRR_ext_arr = [x / 1000 for x in output_HRR_ext_arr]
+
+    # Generate new array for Total HRR
+    combined_HRR =[]
+    for i in range(len(output_HRR_total_arr)):
+        combined_HRR.append(output_HRR_total_arr[i] + output_HRR_ext_arr[i])
 
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax1 = plt.subplots()
@@ -52,9 +58,21 @@ if __name__ == "__main__":
     ax5.plot(HRR_time_arr, HRR_hrr_arr, label='contents')
     ax5.plot(output_time_arr, output_HRR_total_arr, label='total internal')
     ax5.plot(output_time_arr, output_HRR_ext_arr, label='total external')
+    ax5.plot(output_time_arr, combined_HRR, label='total combined')
     ax5.set_xlabel('Time [min]')
     ax5.set_ylabel('HRR [kW]')
     ax5.legend().set_visible(True)
     fig.tight_layout()
 
     plt.show()
+
+    # Write columns to dataframe for exporting to .csv
+
+    df = pd.DataFrame(output_time_arr, columns=['Output time [min]'])
+
+    df['Output HRR from wood [kW]'] = output_HRR_wood_arr
+    df['Output HRR inside enclosure [kW]'] = output_HRR_total_arr
+    df['Output HRR external to enclosure [kW]'] = output_HRR_ext_arr
+    df['Output HRR total [kW]'] = combined_HRR
+    df.to_csv('zone_model_out.csv', encoding='utf-8', index=False)
+

@@ -9,6 +9,7 @@ from scipy.ndimage import gaussian_filter1d
 from tqdm import tqdm
 
 import zone_model_1.hrr as RHR
+from zone_model_1.char_regression import char_reg_HRR, char_density
 from zone_model_1.charring import char_depth_integral
 from zone_model_1.core import (
     q_o_c_calc,
@@ -36,6 +37,8 @@ def main(
         wood_density: float = 450.0,
         wood_Hoc: float = 15500.0,
         ceiling_exposed: float = 1.0,
+        regress: float = 1.0,
+        char_HoC: float = 32000,
 
         # Heat transfer properties of gas
         c_p: float = 1000.0,
@@ -91,6 +94,7 @@ def main(
     :param wood_density: Density of wood [kg/m^3].
     :param wood_Hoc: Effective heat of combustion of wood [kJ/kg].
     :param ceiling_exposed: Fraction of ceiling area exposed to burning.
+    :param regress: char regression rate [mm/min].
     :param c_p: Specific heat of air/gas [J/(kg·K)].
     :param E_net: Net wall-fire emissivity [-].
     :param rho_air: Density of air [kg/m^3].
@@ -145,13 +149,18 @@ def main(
     gas_volume = b * d * h
 
     # Fire load relationship
-    HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED * FLED_combustion_eff, conv_fract)
+    HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time, start_dec, end_dec = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED * FLED_combustion_eff, conv_fract)
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert kW to W
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr, kind="linear", fill_value="extrapolate")
     HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
 
     # Check end time
     end_time = HRR_time_arr[-1]
+
+    # Char surface regression interp
+    char_reg_time_arr = [0, start_dec, end_dec, end_time]
+    char_reg_rate_arr = [0, 0, regress, regress]
+    char_reg_interp = interp1d(char_reg_time_arr, char_reg_rate_arr, kind="linear", fill_value="extrapolate")
 
     # Define spatial and time steps
     dx_wall, dt1 = ht_dx_dt_sub(L, N, alpha_wall)
@@ -183,14 +192,21 @@ def main(
 
     # Initialize variables
     MLR = 0.0
+    char_rho = 0
 
     # Main time-stepping loop
     for i in tqdm(range(1, round(steps) + 1)):
         time_s = i * dt
         HRR_content = HRR_interp(time_s)  # W
 
+        # Lookup char regression rate
+        Reg_rate = char_reg_interp(time_s) / (60 * 1000)
+
         if time_s > ceiling_ignition_time:
-            HRR_wood = MLR * wood_Hoc * ceiling_area * ceiling_exposed * 1000.0  # Convert kJ to W
+            HRR_char_reg = char_reg_HRR(char_rho, Reg_rate, char_HoC * 1000) * ceiling_area * ceiling_exposed
+            HRR_struct = MLR * wood_Hoc * ceiling_area * ceiling_exposed * 1000.0  # Convert kW to W
+            HRR_wood = HRR_struct + HRR_char_reg
+
         else:
             HRR_wood = 0
 
@@ -248,18 +264,15 @@ def main(
         # Smooth char depth array
         output_char_depth_arr = gaussian_filter1d(output_char_depth_arr, sigma=1.5)
 
-        # Charring rate - removed from code and replaced with ceiling ignition routine
-        #if T_f < (300.0 + 273.0) and time_s < 60.0:
-        #    charring_rate = 0.0
-        #else:
-        #    charring_rate = (output_char_depth_arr[i] - output_char_depth_arr[i - 1]) / (dt / 60.0)
-        #output_charring_rate_arr.append(charring_rate)
-
         if time_s < ceiling_ignition_time:
             charring_rate = 0.0
         else:
             charring_rate = (output_char_depth_arr[i] - output_char_depth_arr[i - 1]) / (dt / 60.0)
+            # Update char density
+            char_rho = char_density(output_char_depth_arr[i])
         output_charring_rate_arr.append(charring_rate)
+
+
 
         # Mass loss rate
         MLR = (charring_rate / (60.0 * 1000.0)) * wood_density

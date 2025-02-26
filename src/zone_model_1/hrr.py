@@ -205,7 +205,12 @@ def time_vs_hrr(b: float, d: float, h: float, H_o: float, B_o: float,
     HRR_time_arr.append(14400.0)  # 4 hours in seconds
     HRR_arr.append(0.0)
 
-    return HRR_time_arr, HRR_arr, ceiling_ignition_time
+    # Pass times for char regression
+
+    start_of_decay = t_grow + t_steady
+    end_of_decay = t_grow + t_steady + t_decay
+
+    return HRR_time_arr, HRR_arr, ceiling_ignition_time, start_of_decay, end_of_decay
 
 
 if __name__ == "__main__":
