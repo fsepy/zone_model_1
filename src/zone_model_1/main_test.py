@@ -31,6 +31,7 @@ if __name__ == "__main__":
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax1 = plt.subplots()
     ax1.plot(output_time_arr, output_gas_temp_arr, label='Gas')
+    ax1.set_xlabel('Time [min]')
     ax1.set_ylabel('Temperature [$^o$C]')
     ax1.minorticks_on()
     fig.tight_layout()
@@ -74,5 +75,6 @@ if __name__ == "__main__":
     df['Output HRR inside enclosure [kW]'] = output_HRR_total_arr
     df['Output HRR external to enclosure [kW]'] = output_HRR_ext_arr
     df['Output HRR total [kW]'] = combined_HRR
+    df['Output Gas Temp [DegC]'] = output_gas_temp_arr
     df.to_csv('zone_model_out.csv', encoding='utf-8', index=False)
 

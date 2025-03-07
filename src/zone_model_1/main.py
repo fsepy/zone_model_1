@@ -7,6 +7,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 from scipy.ndimage import gaussian_filter1d
 from tqdm import tqdm
+import pandas as pd
 
 import zone_model_1.hrr as RHR
 from zone_model_1.char_regression import char_reg_HRR, char_density
@@ -25,9 +26,9 @@ from zone_model_1.heat_transfer_1d_plus_qinc import alpha_calc, ht_dx_dt_sub, up
 
 def main(
         # Set initial conditions
-        b: float = 3,  # Room breadth [m]
-        d: float = 4,  # Room depth [m]
-        h: float = 2.4,  # Room height [m]
+        b: float = 3.4,  # Room breadth [m]
+        d: float = 3.4,  # Room depth [m]
+        h: float = 2.5,  # Room height [m]
         H_o: float = 1.8,  # Aggregate opening height [m]
         B_o: float = 0.7,  # Aggregate opening width [m]
         T_inf: float = 293.0,  # Initial outside ambient temperature [K]
@@ -36,8 +37,8 @@ def main(
         # Properties of the wood for combustion analysis
         wood_density: float = 450.0,
         wood_Hoc: float = 15500.0,
-        ceiling_exposed: float = 1.0,
-        regress: float = 1.0,
+        ceiling_exposed: float = 1.74,
+        regress: float = 0.7,
         char_HoC: float = 32000,
 
         # Heat transfer properties of gas
@@ -149,7 +150,20 @@ def main(
     gas_volume = b * d * h
 
     # Fire load relationship
+    HRR_prescribed = 'yes'
+    # Calculate HRR with time
     HRR_time_arr, HRR_hrr_arr, ceiling_ignition_time, start_dec, end_dec = RHR.time_vs_hrr(b, d, h, H_o, B_o, HRRPUA, growth_rate, FLED * FLED_combustion_eff, conv_fract)
+
+    # Option to prescribe HRR with time
+    if HRR_prescribed =='yes':
+        df_input_HRR = pd.read_excel("Input.xlsx")
+        HRR_time_arr = df_input_HRR['Time_s']
+        HRR_time_arr = HRR_time_arr.tolist()
+        HRR_hrr_arr = df_input_HRR['HRR_kW']
+        start_dec = 3585
+        end_dec = 5400
+
+
     HRR_hrr_arr = [x * 1000 for x in HRR_hrr_arr]  # Convert kW to W
     HRR_interp = interp1d(HRR_time_arr, HRR_hrr_arr, kind="linear", fill_value="extrapolate")
     HRR_VC_lim = RHR.vent_cont_hrr(opening_area, H_o) * 1000  # Ventilation-controlled limit in W
@@ -271,8 +285,6 @@ def main(
             # Update char density
             char_rho = char_density(output_char_depth_arr[i])
         output_charring_rate_arr.append(charring_rate)
-
-
 
         # Mass loss rate
         MLR = (charring_rate / (60.0 * 1000.0)) * wood_density
