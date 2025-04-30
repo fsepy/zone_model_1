@@ -1,0 +1,567 @@
+data = '''&HEAD CHID = 'C_MOE_L01'/
+&TIME T_END = 600.0/
+&DUMP DT_SLCF = 1.0/
+&MESH ID = 'MESH-FLAT-02', IJK = 34, 80, 28, XB = 37.5, 40.9, 10.8, 18.8, -0.2, 2.6, MPI_PROCESS = 0/
+&MESH ID = 'MESH-EXTERNAL', IJK = 69, 8, 28, XB = 37.5, 44.4, 18.8, 19.6, -0.2, 2.6, MPI_PROCESS = 0/
+&MESH ID = 'MESH-LOBBY', IJK = 24, 47, 28, XB = 35.1, 37.5, 10.8, 15.5, -0.2, 2.6, MPI_PROCESS = 0/
+&MESH ID = 'MESH-SHAFT-EX', IJK = 12, 12, 280, XB = 47.1, 48.3, 7.8, 9.0, -0.2, 27.8, MPI_PROCESS = 0/
+&MESH ID = 'MESH-STAIR-UF-01', IJK = 29, 16, 97, XB = 31.7, 37.5, 15.5, 18.7, 2.6, 22.0, MPI_PROCESS = 1/
+&MESH ID = 'MESH-CORRIDOR-02', IJK = 139, 17, 28, XB = 21.2, 35.1, 9.0, 10.7, -0.2, 2.6, MPI_PROCESS = 1/
+&MESH ID = 'MESH-CORRIDOR-03', IJK = 20, 81, 28, XB = 22.1, 24.1, 0.9, 9.0, -0.2, 2.6, MPI_PROCESS = 1/
+&MESH ID = 'MESH-STAIR-UF-02', IJK = 29, 16, 97, XB = 31.7, 37.5, 15.5, 18.7, 22.0, 41.4, MPI_PROCESS = 2/
+&MESH ID = 'MESH-SHAFT-IN', IJK = 12, 12, 416, XB = 25.8, 27.0, 10.7, 11.9, -0.2, 41.4, MPI_PROCESS = 2/
+&MESH ID = 'MESH-STAIR-FF-00', IJK = 58, 32, 28, XB = 31.7, 37.5, 15.5, 18.7, -0.2, 2.6, MPI_PROCESS = 2/
+&MESH ID = 'MESH-STAIR-LF', IJK = 29, 16, 22, XB = 31.7, 37.5, 15.5, 18.7, -4.6, -0.2, MPI_PROCESS = 3/
+&MESH ID = 'MESH-CORRIDOR-01', IJK = 149, 18, 28, XB = 35.1, 50.0, 9.0, 10.8, -0.2, 2.6, MPI_PROCESS = 3/
+&MESH ID = 'MESH-FLAT-01', IJK = 35, 80, 28, XB = 40.9, 44.4, 10.8, 18.8, -0.2, 2.6, MPI_PROCESS = 3/
+&SPEC ID = 'REAC_FUEL', FORMULA = 'C1.0H2.08O0.54N0.0'/
+&REAC ID = 'OFR', FYI = 'C/VM2 Table 2.1, and https://www.thunderheadeng.com/2015/09/updated-fds-combustion-and-fuel-composition-calculators/', FUEL = 'REAC_FUEL', CO_YIELD = 0.04, SOOT_YIELD = 0.1, HEAT_OF_COMBUSTION = 20000.0, RADIATIVE_FRACTION = 0.35/
+&RAMP ID = 'Fire_RAMP', T = 319.75, F = 1.0/
+&RAMP ID = 'Fire_RAMP', T = 320.25, F = -1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 156.75, F = -1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 157.25, F = 1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 176.75, F = 1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 177.25, F = -1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 325.75, F = -1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 326.25, F = 1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 345.75, F = 1.0/
+&RAMP ID = 'Stair_Door_RAMP', T = 346.25, F = -1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 152.75, F = -1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 153.25, F = 1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 172.75, F = 1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 173.25, F = -1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 321.75, F = -1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 322.25, F = 1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 341.75, F = 1.0/
+&RAMP ID = 'Lobby_Door_RAMP', T = 342.25, F = -1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 130.75, F = -1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 131.25, F = 1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 150.75, F = 1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 151.25, F = -1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 299.75, F = -1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 300.25, F = 1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 319.75, F = 1.0/
+&RAMP ID = 'Flat_Door_RAMP', T = 320.25, F = -1.0/
+&RAMP ID = 'EXHAUST_RAMP_V', T = 0.0, F = 0.0/
+&RAMP ID = 'EXHAUST_RAMP_V', T = 30.0, F = 1.0/
+&PROP ID = 'Cleary Ionization I01', QUANTITY = 'CHAMBER OBSCURATION', ACTIVATION_OBSCURATION = 30.0, ALPHA_E = 1.8, BETA_E = -1.0, ALPHA_C = 1.0, BETA_C = -0.8/
+&CTRL ID = 'Fire', FUNCTION_TYPE = 'CUSTOM', RAMP_ID = 'Fire_RAMP', LATCH = .false., INPUT_ID = 'TIME'/
+&CTRL ID = 'SD_Detection', FUNCTION_TYPE = 'TIME_DELAY', DELAY = 5.0, LATCH = .false., INPUT_ID = 'or'/
+&CTRL ID = 'or', FUNCTION_TYPE = 'ANY', INPUT_ID = 'SD01', 'SD02', 'SD03', 'SD04'/
+&CTRL ID = 'invert', FUNCTION_TYPE = 'ALL', LATCH = .false., INITIAL_STATE = .true., INPUT_ID = 'SD_Detection'/
+&CTRL ID = 'invert-2', FUNCTION_TYPE = 'ALL', LATCH = .false., INITIAL_STATE = .true., INPUT_ID = 'Stair_Door'/
+&CTRL ID = 'Stair_Door', FUNCTION_TYPE = 'CUSTOM', RAMP_ID = 'Stair_Door_RAMP', LATCH = .false., INPUT_ID = 'TIME'/
+&CTRL ID = 'invert-3', FUNCTION_TYPE = 'ALL', LATCH = .false., INITIAL_STATE = .true., INPUT_ID = 'Lobby_Door'/
+&CTRL ID = 'Lobby_Door', FUNCTION_TYPE = 'CUSTOM', RAMP_ID = 'Lobby_Door_RAMP', LATCH = .false., INPUT_ID = 'TIME'/
+&CTRL ID = 'invert-4', FUNCTION_TYPE = 'ALL', LATCH = .false., INITIAL_STATE = .true., INPUT_ID = 'Flat_Door'/
+&CTRL ID = 'Flat_Door', FUNCTION_TYPE = 'CUSTOM', RAMP_ID = 'Flat_Door_RAMP', LATCH = .false., INPUT_ID = 'TIME'/
+&DEVC ID = 'FED01', QUANTITY = 'FED', XYZ = 35.8, 11.6, 1.0/
+&DEVC ID = 'FED02', QUANTITY = 'FED', XYZ = 36.8, 11.6, 1.0/
+&DEVC ID = 'FED03', QUANTITY = 'FED', XYZ = 35.8, 12.6, 1.0/
+&DEVC ID = 'FED04', QUANTITY = 'FED', XYZ = 36.8, 12.6, 1.0/
+&DEVC ID = 'FED05', QUANTITY = 'FED', XYZ = 35.8, 13.6, 1.0/
+&DEVC ID = 'FED06', QUANTITY = 'FED', XYZ = 36.8, 13.6, 1.0/
+&DEVC ID = 'FED07', QUANTITY = 'FED', XYZ = 35.8, 14.6, 1.0/
+&DEVC ID = 'FED08', QUANTITY = 'FED', XYZ = 36.8, 14.6, 1.0/
+&DEVC ID = 'FED09', QUANTITY = 'FED', XYZ = 35.8, 11.6, 2.0/
+&DEVC ID = 'FED10', QUANTITY = 'FED', XYZ = 36.8, 11.6, 2.0/
+&DEVC ID = 'FED11', QUANTITY = 'FED', XYZ = 35.8, 12.6, 2.0/
+&DEVC ID = 'FED12', QUANTITY = 'FED', XYZ = 36.8, 12.6, 2.0/
+&DEVC ID = 'FED13', QUANTITY = 'FED', XYZ = 35.8, 13.6, 2.0/
+&DEVC ID = 'FED14', QUANTITY = 'FED', XYZ = 36.8, 13.6, 2.0/
+&DEVC ID = 'FED15', QUANTITY = 'FED', XYZ = 35.8, 14.6, 2.0/
+&DEVC ID = 'FED16', QUANTITY = 'FED', XYZ = 36.8, 14.6, 2.0/
+&DEVC ID = 'Pressure-LL', QUANTITY = 'PRESSURE', XYZ = 36.3, 13.2, 2.0/
+&DEVC ID = 'Pressure-CC01', QUANTITY = 'PRESSURE', XYZ = 41.7, 9.8, 2.0/
+&DEVC ID = 'Pressure-CC02', QUANTITY = 'PRESSURE', XYZ = 31.9, 9.8, 2.0/
+&DEVC ID = 'Vel_In', QUANTITY = 'VELOCITY', XYZ = 26.4, 10.6, 2.0/
+&DEVC ID = 'Vel_Out', QUANTITY = 'VELOCITY', XYZ = 47.7, 9.1, 2.0/
+&DEVC ID = 'Vel_DoorFF', QUANTITY = 'VELOCITY', XYZ = 41.7, 10.6, 2.0/
+&DEVC ID = 'Vel_DoorLL', QUANTITY = 'VELOCITY', XYZ = 36.7, 10.6, 2.0/
+&DEVC ID = 'Vel_DoorSS', QUANTITY = 'VELOCITY', XYZ = 36.7, 15.5, 2.0/
+&DEVC ID = 'SD01', PROP_ID = 'Cleary Ionization I01', XYZ = 24.0, 9.8, 2.3/
+&DEVC ID = 'SD02', PROP_ID = 'Cleary Ionization I01', XYZ = 31.5, 9.8, 2.3/
+&DEVC ID = 'SD03', PROP_ID = 'Cleary Ionization I01', XYZ = 39.0, 9.8, 2.3/
+&DEVC ID = 'SD04', PROP_ID = 'Cleary Ionization I01', XYZ = 46.5, 9.8, 2.3/
+&DEVC ID = 'Flow-In', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 26.1, 26.7, 10.6, 10.6, 0.6, 2.2/
+&DEVC ID = 'Flow-Ex', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 47.4, 48.0, 9.1, 9.1, 0.6, 2.2/
+&DEVC ID = 'Flow-DoorFF', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 41.3, 42.1, 10.6, 10.6, 0.0, 2.0/
+&DEVC ID = 'Flow-DoorLL00', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 36.3, 37.1, 10.6, 10.6, 0.0, 2.0/
+&DEVC ID = 'Flow-DoorLL01', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 36.3, 37.1, 10.8, 10.8, -2.775558e-16, 2.0/
+&DEVC ID = 'Flow-DoorSS', QUANTITY = 'V-VELOCITY', SPATIAL_STATISTIC = 'AREA INTEGRAL', QUANTITY_RANGE = -1e+50, 0.0, XB = 36.3, 37.1, 15.5, 15.5, 0.0, 2.0/
+&DEVC ID = 'TIME', QUANTITY = 'TIME', XYZ = 40.9, 10.8, -0.2/
+&MATL ID = 'Concrete', FYI = 'NBSIR 88-3752 - ATF NIST Multi-Floor Validation', SPECIFIC_HEAT = 0.9, CONDUCTIVITY = 1.4, DENSITY = 2300.0, EMISSIVITY = 0.7/
+&MATL ID = 'Gypsum Plasterboard', FYI = 'Quintiere, Fire Behavior - NIST NRC Validation', SPECIFIC_HEAT = 0.95, CONDUCTIVITY = 0.25, DENSITY = 780.0, EMISSIVITY = 0.7/
+&SURF ID = 'CONCRETE', COLOR = 'GRAY 80', BACKING = 'VOID', MATL_ID(1,1) = 'Concrete', MATL_MASS_FRACTION(1,1) = 1.0, THICKNESS(1) = 0.1/
+&SURF ID = 'GYPSUM PLASTERBOARD', RGB = 185, 135, 74, BACKING = 'VOID', MATL_ID(1,1) = 'Gypsum Plasterboard', MATL_MASS_FRACTION(1,1) = 1.0, THICKNESS(1) = 0.015/
+&SURF ID = 'EXHAUST', RGB = 26, 128, 26, VOLUME_FLOW = 4.0, RAMP_V = 'EXHAUST_RAMP_V'/
+&SURF ID = '1.0MW MOE FIRE', COLOR = 'RED', HRRPUA = 497.4, TMP_FRONT = 300.0/
+&OBST ID = 'Wall', XB = 37.1, 37.2, 15.5, 15.7, 0.0, 2.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 35.1, 35.3, 10.8, 15.5, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.3, 37.5, 10.8, 15.5, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 40.9, 41.0, 14.7, 18.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 40.9, 44.4, 18.6, 18.8, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 44.2, 44.4, 10.8, 18.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 40.9, 41.0, 10.8, 13.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 37.7, 10.8, 13.1, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 37.7, 13.3, 14.7, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 37.7, 14.9, 18.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 40.0, 13.1, 13.3, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 40.9, 14.7, 14.9, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.5, 40.9, 18.6, 18.8, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 39.8, 40.0, 10.8, 13.1, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 39.8, 40.0, 13.3, 13.4, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 39.8, 40.9, 13.4, 13.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 40.8, 40.9, 10.8, 13.4, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 40.8, 40.9, 14.9, 18.6, 0.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 35.1, 36.3, 10.6, 10.8, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 35.1, 47.1, 9.0, 9.1, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 36.3, 37.1, 10.6, 10.8, 2.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 37.1, 41.3, 10.6, 10.8, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 41.3, 42.1, 10.6, 10.8, 2.0, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 42.1, 50.0, 10.6, 10.8, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 47.1, 47.4, 9.0, 9.1, -1.915135e-15, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 9.0, 9.1, -1.915135e-15, 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 9.0, 9.1, 2.2, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.0, 48.2, 9.0, 9.1, -1.915135e-15, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.2, 48.3, 9.0, 9.1, -1.915135e-15, 2.4, SURF_ID6 = 'GYPSUM PLASTERBOARD', 'GYPSUM PLASTERBOARD', 'GYPSUM PLASTERBOARD',            'CONCRETE', 'GYPSUM PLASTERBOARD', 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 48.2, 48.3, 9.0, 9.1, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.3, 50.0, 9.0, 9.1, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 49.8, 50.0, 9.1, 10.6, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 21.2, 21.4, 9.1, 10.6, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 21.2, 22.3, 9.0, 9.1, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 21.2, 25.8, 10.6, 10.7, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 25.8, 26.1, 10.6, 10.7, -1.915135e-15, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.6, 10.7, -1.915135e-15, 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.6, 10.7, 2.2, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.7, 27.0, 10.6, 10.7, -1.915135e-15, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 27.0, 35.1, 10.6, 10.7, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 23.9, 35.1, 9.0, 9.1, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 22.1, 22.3, 1.1, 9.0, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 22.1, 24.1, 0.9, 1.1, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 23.9, 24.1, 1.1, 9.0, -1.915135e-15, 2.4, SURF_ID = 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 25.8, 25.9, 10.7, 10.8, -1.748601e-15, 2.4, SURF_ID6 = 'GYPSUM PLASTERBOARD', 'CONCRETE', 'CONCRETE', 'CONCRETE',            'CONCRETE', 'CONCRETE'/
+&OBST ID = 'Wall', XB = 25.8, 25.9, 10.7, 10.8, 2.4, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 25.8, 26.0, 10.8, 11.7, -1.748601e-15, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 25.8, 27.0, 11.7, 11.9, -1.748601e-15, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 25.9, 26.1, 10.7, 10.8, -1.748601e-15, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.7, 10.8, -1.748601e-15, 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.7, 10.8, 2.2, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.7, 27.0, 10.7, 10.8, -1.748601e-15, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.8, 27.0, 10.8, 11.7, -1.748601e-15, 40.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.1, 47.3, 8.0, 8.9, 0.0, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.1, 47.4, 8.9, 9.0, 0.0, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.1, 48.3, 7.8, 8.0, 0.0, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 8.9, 9.0, 0.0, 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 8.9, 9.0, 2.2, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.0, 48.2, 8.9, 9.0, 0.0, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.1, 48.3, 8.0, 8.9, 0.0, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 48.2, 48.3, 8.9, 9.0, 0.0, 2.4, SURF_ID6 = 'GYPSUM PLASTERBOARD', 'CONCRETE', 'GYPSUM PLASTERBOARD',            'GYPSUM PLASTERBOARD', 'GYPSUM PLASTERBOARD', 'GYPSUM PLASTERBOARD'/
+&OBST ID = 'Wall', XB = 48.2, 48.3, 8.9, 9.0, 2.4, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 15.5, 15.7, -4.4, -0.2, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 18.5, 18.7, -4.4, -0.2, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 37.3, 37.5, 15.7, 18.5, -4.4, -0.2, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 31.7, 15.7, 18.5, -4.4, -0.2, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 31.8, 15.7, 18.6, -0.2, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 36.3, 15.5, 15.7, -0.2, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 18.6, 18.7, -0.2, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 36.3, 37.1, 15.5, 15.7, -0.2, 0.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 36.3, 37.1, 15.5, 15.7, 2.0, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 37.1, 37.5, 15.5, 15.7, -0.2, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 37.3, 37.5, 15.7, 18.6, -0.2, 2.6, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 15.5, 15.7, 2.6, 22.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 18.5, 18.7, 2.6, 22.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 37.3, 37.5, 15.7, 18.5, 2.6, 22.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 31.7, 15.7, 18.5, 2.6, 22.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 15.5, 15.7, 22.0, 40.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 37.5, 18.5, 18.7, 22.0, 40.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 37.3, 37.5, 15.7, 18.5, 22.0, 40.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 31.7, 31.7, 15.7, 18.5, 22.0, 40.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 40.9, 44.4, 10.8, 18.8, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 37.5, 40.9, 10.8, 18.8, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 50.0, 9.0, 10.8, -0.2, -1.915135e-15, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 21.2, 35.1, 9.0, 10.7, -0.2, -1.915135e-15, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 22.1, 24.1, 0.9, 9.0, -0.2, -1.915135e-15, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 37.5, 10.8, 15.5, -0.2, -1.915135e-15, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 37.5, 15.5, 15.7, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 37.5, 37.5, 15.7, 18.7, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 25.8, 27.0, 10.7, 11.9, -0.2, -1.748601e-15, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 47.1, 48.3, 7.8, 9.0, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 47.1, 48.3, 7.8, 9.0, 27.6, 27.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 31.7, 37.5, 15.5, 18.7, -4.6, -4.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 40.9, 44.4, 10.8, 18.8, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 37.5, 40.9, 10.8, 18.8, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 50.0, 9.0, 10.8, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 21.2, 35.1, 9.0, 10.7, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 22.1, 24.1, 0.9, 9.0, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 37.5, 10.8, 15.5, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.1, 37.5, 15.5, 15.7, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 37.5, 37.5, 15.7, 18.7, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 25.8, 27.0, 10.7, 10.8, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 47.1, 48.3, 8.9, 9.0, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 31.7, 34.7, 16.7, 17.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 31.7, 37.5, 15.5, 16.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 31.7, 37.5, 17.7, 18.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 35.7, 37.5, 16.7, 17.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 25.8, 26.0, 10.8, 11.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 25.8, 27.0, 10.7, 10.8, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 25.8, 27.0, 11.7, 11.9, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Slab', XB = 26.8, 27.0, 10.8, 11.7, 40.0, 40.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, -2.4, -2.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, -2.4, -2.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, -2.4, -2.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, -2.6, -2.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, -2.2, -2.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, -2.8, -2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, -2.0, -1.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 33.9, 15.7, 16.9, -3.0, -2.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 33.9, 17.3, 18.5, -1.8, -1.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, -3.2, -3.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 17.3, 18.5, -1.6, -1.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, -3.4, -3.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, -1.4, -1.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 15.7, 16.9, -3.6, -3.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, -1.2, -1.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, -3.8, -3.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 17.3, 18.5, -1.0, -0.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, -4.0, -3.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 17.3, 18.5, -0.8, -0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 15.7, 16.9, -4.2, -4.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, -0.6, -0.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, -4.4, -4.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, -0.4, -0.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, -4.6, -4.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 17.3, 18.5, -0.2, -0.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.8, 33.1, 17.0, 17.3, 1.4, 1.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.8, 33.2, 15.7, 17.0, 1.4, 1.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.8, 33.2, 17.3, 18.6, 1.4, 1.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.2, 33.3, 15.7, 17.0, 1.3, 1.5, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.2, 33.3, 17.3, 18.6, 1.5, 1.7, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 17.0, 1.2, 1.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.6, 1.6, 1.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.6, 15.7, 17.0, 1.1, 1.3, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.6, 1.7, 1.9, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.6, 33.8, 15.7, 17.0, 1.0, 1.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 33.8, 17.3, 18.6, 1.8, 2.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.8, 33.9, 15.7, 17.0, 0.9, 1.1, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.8, 34.0, 17.3, 18.6, 1.9, 2.1, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 17.0, 0.8, 1.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.0, 34.1, 17.3, 18.6, 2.0, 2.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.2, 15.7, 17.0, 0.7, 0.9, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.6, 2.1, 2.3, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.2, 34.4, 15.7, 17.0, 0.6, 0.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.6, 2.2, 2.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.4, 34.5, 15.7, 17.0, 0.5, 0.7, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.6, 17.3, 18.6, 2.3, 2.5, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 17.0, 0.4, 0.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.6, 34.8, 17.3, 18.6, 2.4, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.8, 15.7, 17.0, 0.3, 0.5, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.8, 34.9, 17.3, 18.6, 2.5, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.8, 35.0, 15.7, 17.0, 0.2, 0.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.0, 35.1, 15.7, 17.0, 0.1, 0.3, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 17.0, 0.0, 0.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.4, 17.3, 18.6, -0.2, -0.1, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.4, 15.7, 17.0, -0.1, 0.1, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.4, 37.3, 15.7, 17.0, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.4, 37.3, 17.3, 18.6, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 17.0, 17.3, -0.2, 0.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.0, 17.3, 18.6, 2.6, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 4.4, 4.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, 7.6, 7.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 10.6, 10.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, 13.8, 14.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 16.8, 17.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, 20.0, 20.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, 7.6, 7.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, 7.6, 7.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, 13.8, 14.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, 13.8, 14.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, 20.0, 20.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, 20.0, 20.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 4.4, 4.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 10.6, 10.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 16.8, 17.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 4.6, 4.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 10.8, 11.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 17.0, 17.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, 7.4, 7.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, 7.8, 8.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, 13.6, 13.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, 14.0, 14.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, 19.8, 20.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, 20.2, 20.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 4.2, 4.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 4.8, 5.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 10.4, 10.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 11.0, 11.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 16.6, 16.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 17.2, 17.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 15.7, 16.9, 7.2, 7.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 17.3, 18.5, 8.0, 8.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 15.7, 16.9, 13.4, 13.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 17.3, 18.5, 14.2, 14.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 15.7, 16.9, 19.6, 19.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 17.3, 18.5, 20.4, 20.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 4.0, 4.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 5.0, 5.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 10.2, 10.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 11.2, 11.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 16.4, 16.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 17.4, 17.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, 7.0, 7.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, 13.2, 13.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, 19.4, 19.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.3, 17.3, 18.5, 8.2, 8.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.3, 17.3, 18.5, 14.4, 14.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.3, 17.3, 18.5, 20.6, 20.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 3.8, 4.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 5.2, 5.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 10.0, 10.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 11.4, 11.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 16.2, 16.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 17.6, 17.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.5, 15.7, 16.9, 6.8, 7.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.5, 15.7, 16.9, 13.0, 13.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.5, 15.7, 16.9, 19.2, 19.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, 8.4, 8.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, 14.6, 14.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, 20.8, 21.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 3.6, 3.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 5.4, 5.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 9.8, 10.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 11.6, 11.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 16.0, 16.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 17.8, 18.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, 6.6, 6.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, 12.8, 13.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, 19.0, 19.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.9, 17.3, 18.5, 8.6, 8.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.9, 17.3, 18.5, 14.8, 15.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.9, 17.3, 18.5, 21.0, 21.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 3.4, 3.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 9.6, 9.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 15.8, 16.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 5.6, 5.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 15.7, 16.9, 6.4, 6.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 11.8, 12.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 15.7, 16.9, 12.6, 12.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 18.0, 18.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 15.7, 16.9, 18.8, 19.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 2.6, 2.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 8.8, 9.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 15.0, 15.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 21.2, 21.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 3.2, 3.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 9.4, 9.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 15.6, 15.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 21.8, 22.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 5.8, 6.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, 6.2, 6.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 12.0, 12.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, 12.4, 12.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 18.2, 18.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, 18.6, 18.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 2.8, 3.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 9.0, 9.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 15.2, 15.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 21.4, 21.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 3.0, 3.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 9.2, 9.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 15.4, 15.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 21.6, 21.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 15.7, 16.9, 6.0, 6.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 6.0, 6.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 15.7, 16.9, 12.2, 12.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 12.2, 12.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 15.7, 16.9, 18.4, 18.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 18.4, 18.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 2.8, 3.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 16.9, 17.3, 6.0, 6.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 9.0, 9.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 16.9, 17.3, 12.2, 12.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 15.2, 15.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 16.9, 17.3, 18.4, 18.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 21.4, 21.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 17.3, 18.5, 2.6, 2.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 22.0, 22.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 23.0, 23.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, 26.2, 26.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 29.2, 29.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 17.3, 32.4, 32.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.1, 16.9, 18.5, 35.4, 35.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, 26.2, 26.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, 26.2, 26.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 15.7, 16.9, 32.4, 32.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.3, 17.3, 18.5, 32.4, 32.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 23.0, 23.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 29.2, 29.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 31.7, 33.5, 15.7, 16.9, 35.4, 35.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 23.2, 23.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 29.4, 29.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.1, 33.5, 17.3, 18.5, 35.6, 35.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, 26.0, 26.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, 26.4, 26.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 15.7, 16.9, 32.2, 32.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.3, 33.5, 17.3, 18.5, 32.6, 32.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 22.8, 23.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 23.4, 23.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 29.0, 29.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 29.6, 29.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 15.7, 16.9, 35.2, 35.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.7, 17.3, 18.5, 35.8, 36.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 15.7, 16.9, 25.8, 26.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 17.3, 18.5, 26.6, 26.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 15.7, 16.9, 32.0, 32.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.5, 33.9, 17.3, 18.5, 32.8, 33.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 22.6, 22.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 23.6, 23.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 28.8, 29.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 29.8, 30.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 15.7, 16.9, 35.0, 35.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.7, 34.1, 17.3, 18.5, 36.0, 36.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, 25.6, 25.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.1, 15.7, 16.9, 31.8, 32.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.3, 17.3, 18.5, 26.8, 27.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 33.9, 34.3, 17.3, 18.5, 33.0, 33.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 22.4, 22.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 23.8, 24.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 28.6, 28.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 30.0, 30.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 15.7, 16.9, 34.8, 35.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.3, 17.3, 18.5, 36.2, 36.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.5, 15.7, 16.9, 25.4, 25.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.1, 34.5, 15.7, 16.9, 31.6, 31.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, 27.0, 27.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.5, 17.3, 18.5, 33.2, 33.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 22.2, 22.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 24.0, 24.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 28.4, 28.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 30.2, 30.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 15.7, 16.9, 34.6, 34.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.3, 34.7, 17.3, 18.5, 36.4, 36.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, 25.2, 25.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.7, 15.7, 16.9, 31.4, 31.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.9, 17.3, 18.5, 27.2, 27.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.5, 34.9, 17.3, 18.5, 33.4, 33.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 22.0, 22.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 28.2, 28.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 34.9, 15.7, 16.9, 34.4, 34.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 24.2, 24.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 15.7, 16.9, 25.0, 25.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 30.4, 30.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 15.7, 16.9, 31.2, 31.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.7, 35.1, 17.3, 18.5, 36.6, 36.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 27.4, 27.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 17.3, 18.5, 33.6, 33.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 28.0, 28.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.3, 15.7, 16.9, 34.2, 34.4, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 24.4, 24.6, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, 24.8, 25.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 30.6, 30.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 15.7, 16.9, 31.0, 31.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 35.3, 17.3, 18.5, 36.8, 37.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 27.6, 27.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.1, 37.3, 17.3, 18.5, 33.8, 34.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 27.8, 28.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 35.5, 15.7, 16.9, 34.0, 34.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 15.7, 16.9, 24.6, 24.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 24.6, 24.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 15.7, 16.9, 30.8, 31.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 30.8, 31.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.3, 37.3, 17.3, 18.5, 37.0, 37.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 16.9, 17.3, 24.6, 24.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 27.6, 27.8, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 16.9, 17.3, 30.8, 31.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 33.8, 34.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 35.5, 37.3, 15.7, 17.3, 37.0, 37.2, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Step', XB = 34.9, 35.1, 15.7, 16.9, 22.0, 22.0, SURF_ID = 'CONCRETE'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.6, 10.7, 0.6, 2.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Wall', XB = 26.1, 26.7, 10.7, 10.8, 0.6, 2.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 9.0, 9.1, 0.6, 2.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Wall', XB = 47.4, 48.0, 8.9, 9.0, 0.6, 2.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Slab', XB = 34.7, 35.7, 16.7, 17.7, 40.0, 40.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Slab', XB = 26.0, 26.8, 10.8, 11.7, 40.0, 40.2, SURF_ID = 'CONCRETE', CTRL_ID = 'invert'/
+&OBST ID = 'Wall', XB = 36.3, 37.1, 15.5, 15.7, 0.0, 2.0, RGB = 255, 255, 255, TRANSPARENCY = 0.6, SURF_ID = 'CONCRETE', CTRL_ID = 'invert-2'/
+&OBST ID = 'Wall', XB = 36.3, 37.1, 10.6, 10.8, -1.915135e-15, 2.0, SURF_ID = 'GYPSUM PLASTERBOARD', CTRL_ID = 'invert-3'/
+&OBST ID = 'Wall', XB = 41.3, 42.1, 10.6, 10.8, -1.915135e-15, 2.0, SURF_ID = 'GYPSUM PLASTERBOARD', CTRL_ID = 'invert-4'/
+&HOLE ID = 'Door', XB = 39.8, 40.6, 14.6, 15.0, 0.0, 2.0/
+&HOLE ID = 'Door', XB = 38.7, 39.5, 13.0, 13.4, 0.0, 2.0/
+&HOLE ID = 'Door', XB = 40.7, 41.1, 12.2, 13.0, 0.0, 2.0/
+&HOLE ID = 'Low_Vent', XB = 41.7, 43.5, 18.5, 18.9, 0.0, 0.8/
+&VENT ID = 'Mesh Vent: MESH-STAIR-UF-02 [XMAX]', SURF_ID = 'OPEN', XB = 37.5, 37.5, 15.5, 18.7, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-STAIR-UF-02 [XMIN]', SURF_ID = 'OPEN', XB = 31.7, 31.7, 15.5, 18.7, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-STAIR-UF-02 [YMAX]', SURF_ID = 'OPEN', XB = 31.7, 37.5, 18.7, 18.7, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-STAIR-UF-02 [YMIN]', SURF_ID = 'OPEN', XB = 31.7, 37.5, 15.5, 15.5, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-STAIR-UF-02 [ZMAX]', SURF_ID = 'OPEN', XB = 31.7, 37.5, 15.5, 18.7, 41.4, 41.4/
+&VENT ID = 'Mesh Vent: MESH-SHAFT-IN-02 [XMAX]', SURF_ID = 'OPEN', XB = 27.0, 27.0, 10.7, 11.9, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-SHAFT-IN-02 [XMIN]', SURF_ID = 'OPEN', XB = 25.8, 25.8, 10.7, 11.9, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-SHAFT-IN-02 [YMAX]', SURF_ID = 'OPEN', XB = 25.8, 27.0, 11.9, 11.9, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-SHAFT-IN-02 [YMIN]', SURF_ID = 'OPEN', XB = 25.8, 27.0, 10.7, 10.7, 40.2, 41.4/
+&VENT ID = 'Mesh Vent: MESH-SHAFT-IN-02 [ZMAX]', SURF_ID = 'OPEN', XB = 25.8, 27.0, 10.7, 11.9, 41.4, 41.4/
+&VENT ID = 'Mesh Vent: MESH-EXTERNAL [XMAX]', SURF_ID = 'OPEN', XB = 44.4, 44.4, 18.8, 19.6, -0.2, 2.6/
+&VENT ID = 'Mesh Vent: MESH-EXTERNAL [XMIN]', SURF_ID = 'OPEN', XB = 37.5, 37.5, 18.8, 19.6, -0.2, 2.6/
+&VENT ID = 'Mesh Vent: MESH-EXTERNAL [YMAX]', SURF_ID = 'OPEN', XB = 37.5, 44.4, 19.6, 19.6, -0.2, 2.6/
+&VENT ID = 'Mesh Vent: MESH-EXTERNAL [ZMAX]', SURF_ID = 'OPEN', XB = 37.5, 44.4, 18.8, 19.6, 2.6, 2.6/
+&VENT ID = 'Mesh Vent: MESH-EXTERNAL [ZMIN]', SURF_ID = 'OPEN', XB = 37.5, 44.4, 18.8, 19.6, -0.2, -0.2/
+&VENT ID = '1.0MW_MOE_Fire', SURF_ID = '1.0MW MOE FIRE', XB = 41.8, 43.4, 16.0, 17.6, 0.0, 0.0, SPREAD_RATE = 0.0027363, RADIUS = 0.8, XYZ = 42.6, 16.8, 0.0, CTRL_ID = 'Fire'/
+&VENT ID = 'Lift_Leakage_01', SURF_ID = 'INERT', XB = 35.3, 35.3, 11.4, 12.2, 0.0, 2.0/
+&VENT ID = 'Lift_Leakage_02', SURF_ID = 'INERT', XB = 35.3, 35.3, 14.1, 14.9, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_01', SURF_ID = 'INERT', XB = 48.4, 48.5, 10.6, 10.6, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_02', SURF_ID = 'INERT', XB = 49.8, 49.8, 10.3, 10.4, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_03', SURF_ID = 'INERT', XB = 49.5, 49.6, 9.1, 9.1, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_04', SURF_ID = 'INERT', XB = 41.7, 41.8, 9.1, 9.1, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_05', SURF_ID = 'INERT', XB = 26.2, 26.3, 9.1, 9.1, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_06', SURF_ID = 'INERT', XB = 25.4, 25.5, 10.6, 10.6, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_07', SURF_ID = 'INERT', XB = 21.4, 21.4, 10.3, 10.4, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_08', SURF_ID = 'INERT', XB = 23.0, 23.1, 1.1, 1.1, 0.0, 2.0/
+&VENT ID = 'Door_Leakage_09', SURF_ID = 'INERT', XB = 32.6, 32.7, 10.6, 10.6, 0.0, 2.0/
+&VENT ID = 'Door_LeakageF_In', SURF_ID = 'INERT', XB = 42.1, 42.2, 10.8, 10.8, 0.0, 2.0/
+&VENT ID = 'Door_LeakageF_Out', SURF_ID = 'INERT', XB = 42.1, 42.2, 10.6, 10.6, 0.0, 2.0/
+&VENT ID = 'Door_LeakageL_In', SURF_ID = 'INERT', XB = 37.1, 37.2, 10.6, 10.6, 0.0, 2.0/
+&VENT ID = 'Door_LeakageL_Out', SURF_ID = 'INERT', XB = 37.1, 37.2, 10.8, 10.8, 0.0, 2.0/
+&VENT ID = 'Door_LeakageS_In', SURF_ID = 'INERT', XB = 37.1, 37.2, 15.5, 15.5, 0.0, 2.0/
+&VENT ID = 'Door_LeakageS_Out', SURF_ID = 'INERT', XB = 37.1, 37.2, 15.7, 15.7, 0.0, 2.0/
+&VENT ID = 'Ex_Vent', SURF_ID = 'EXHAUST', XB = 47.3, 48.1, 8.0, 8.9, 27.6, 27.6, CTRL_ID = 'SD_Detection'/
+&HVAC ID = 'Lift_Leak01', TYPE_ID = 'LEAK', VENT_ID = 'Lift_Leakage_01', VENT2_ID = 'AMBIENT', AREA = 0.06, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Lift_Leak02', TYPE_ID = 'LEAK', VENT_ID = 'Lift_Leakage_02', VENT2_ID = 'AMBIENT', AREA = 0.06, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak01', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_01', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak02', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_02', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak03', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_03', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak04', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_04', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak05', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_05', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak06', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_06', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak07', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_07', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak08', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_08', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_LeakFF', TYPE_ID = 'LEAK', VENT_ID = 'Door_LeakageF_In', VENT2_ID = 'Door_LeakageF_Out', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_LeakLL', TYPE_ID = 'LEAK', VENT_ID = 'Door_LeakageL_In', VENT2_ID = 'Door_LeakageL_Out', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_LeakSS', TYPE_ID = 'LEAK', VENT_ID = 'Door_LeakageS_In', VENT2_ID = 'Door_LeakageS_Out', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&HVAC ID = 'Door_Leak09', TYPE_ID = 'LEAK', VENT_ID = 'Door_Leakage_09', VENT2_ID = 'AMBIENT', AREA = 0.00073, LEAK_ENTHALPY = .true./
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice00', PBX = 23.1/
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice00', PBX = 36.7/
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice01', PBY = 9.8/
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice01', PBY = 16.8/
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice04', PBZ = 1.5/
+&SLCF QUANTITY = 'VISIBILITY', ID = 'Slice05', PBZ = 2.0/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice00', PBX = 23.0/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice00', PBX = 36.7/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice01', PBY = 9.8/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice01', PBY = 16.8/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice04', PBZ = 1.5/
+&SLCF QUANTITY = 'TEMPERATURE', ID = 'Slice05', PBZ = 2.0/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice00', PBX = 26.5/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice00', PBX = 36.7/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice00', PBX = 47.7/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice01', PBY = 9.8/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice01', PBY = 16.8/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice04', PBZ = 1.5/
+&SLCF QUANTITY = 'PRESSURE', ID = 'Slice05', PBZ = 2.0/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice00', PBX = 26.5/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice00', PBX = 36.7/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice00', PBX = 47.7/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice01', PBY = 9.8/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice01', PBY = 16.8/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice04', PBZ = 1.5/
+&SLCF QUANTITY = 'VELOCITY', VECTOR = .true., ID = 'Slice05', PBZ = 2.0/
+&TAIL
+/
+'''
