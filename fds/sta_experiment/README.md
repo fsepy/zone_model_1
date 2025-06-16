@@ -7,7 +7,7 @@ Reference test, no CLT.
 
 ## experiment_2.psm
 
-Todo
+Matches the Experiment 1 from the STA test data.
 
 ## experiment_2.psm
 
