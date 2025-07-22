@@ -3,12 +3,9 @@ Models to benchmark against experiment results from
 
 ## experiment_1.psm
 
-Reference test, no CLT.
+Matches the experiment 1 from the STA test data.
 
 ## experiment_2.psm
 
-Matches the Experiment 1 from the STA test data.
+Matches the experiment 2 and 3 from the STA test data.
 
-## experiment_2.psm
-
-Todo
